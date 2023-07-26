@@ -1,0 +1,24 @@
+controller class
+
+public class OpportunityVFClass {
+    public static List<Opportunity> getOpportunityList(){
+        return [SELECT id,name,AccountId,StageName, Amount,CloseDate FROM Opportunity where 
+                stageName like '%won%' and CreatedDate = LAST_N_DAYS:30 order by amount desc NULLS LAST];
+    }
+}
+
+VF Page
+
+<apex:page Controller="OpportunityVFClass">
+    <apex:pageBlock title="Opportunities won in the last 30 days">
+    <apex:pageBlockTable value="{!OpportunityList}" var="oppRecord">
+        <apex:column value="{!oppRecord.AccountId}"/>
+        <apex:column value="{!oppRecord.Name}"/>
+        <apex:column value="{!oppRecord.CloseDate}"/>
+        <apex:column value="{!oppRecord.Amount}"/>
+        
+        </apex:pageBlockTable>
+    
+    
+    </apex:pageBlock>
+</apex:page>
